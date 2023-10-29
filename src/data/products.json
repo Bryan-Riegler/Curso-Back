@@ -1,1 +1,62 @@
-[{"status":true,"title":"Iphone","description":"Usado","price":120,"code":"B21","stock":2,"category":"SmartPhone","id":2},{"status":true,"title":"Samsung","description":"Nuevo","price":250,"code":"A01","stock":21,"category":"SmartPhone","id":3},{"id":4,"status":true,"title":"Xiaomi","description":"Nuevo","price":180,"code":"C02","stock":210,"category":"SmartPhone"},{"id":5,"status":true,"title":"Motorola","description":"Nuevo","price":80,"code":"MZ2","stock":20,"category":"SmartPhone"},{"id":6,"status":true,"title":"OnePlus","description":"Usado","price":100,"code":"XZ2","stock":210,"category":"SmartPhone"},{"id":7,"status":true,"title":"Ipad","description":"Usado","price":140,"code":"IP2","stock":3,"category":"Tablets"}]
+[
+    {
+        "status": true,
+        "title": "Iphone",
+        "description": "Usado",
+        "price": 120,
+        "code": "B21",
+        "stock": 2,
+        "category": "SmartPhone",
+        "id": 2
+    },
+    {
+        "status": true,
+        "title": "Samsung",
+        "description": "Nuevo",
+        "price": 250,
+        "code": "A01",
+        "stock": 21,
+        "category": "SmartPhone",
+        "id": 3
+    },
+    {
+        "id": 4,
+        "status": true,
+        "title": "Xiaomi",
+        "description": "Nuevo",
+        "price": 180,
+        "code": "C02",
+        "stock": 210,
+        "category": "SmartPhone"
+    },
+    {
+        "id": 5,
+        "status": true,
+        "title": "Motorola",
+        "description": "Nuevo",
+        "price": 80,
+        "code": "MZ2",
+        "stock": 20,
+        "category": "SmartPhone"
+    },
+    {
+        "id": 6,
+        "status": true,
+        "title": "OnePlus",
+        "description": "Usado",
+        "price": 100,
+        "code": "XZ2",
+        "stock": 210,
+        "category": "SmartPhone"
+    },
+    {
+        "id": 7,
+        "status": true,
+        "title": "Ipad",
+        "description": "Usado",
+        "price": 140,
+        "code": "IP2",
+        "stock": 3,
+        "category": "Tablets"
+    }
+]
