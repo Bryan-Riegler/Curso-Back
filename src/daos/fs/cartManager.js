@@ -1,4 +1,5 @@
 import fs from 'fs';
+import mongoose from 'mongoose';
 
 
 export class CartManager {
@@ -20,7 +21,7 @@ export class CartManager {
     async getCartById(id) {
         try {
             const carts = await this.getCarts();
-            const cart = carts.find(cart => cart.id === id);
+            const cart = carts.find(cart => cart.id === Number(id));
             if (!cart) return false;
             return cart;
         } catch (error) {
@@ -53,22 +54,27 @@ export class CartManager {
     }
 
     async addProductToCart(idCart, idProduct) {
-        const carts = await this.getCarts();
+        try {
+            const carts = await this.getCarts();
 
-        const existCart = carts.find(cart => cart.id === idCart);
-        if (existCart) {
-            const existProdInCart = existCart.products.find(product => product.product === idProduct);
-            if (existProdInCart) {
-                existProdInCart.quantity += 1;
-            } else {
-                const product = {
-                    product: idProduct,
-                    quantity: 1
-                };
-                existCart.products.push(product);
+            const existCart = carts.find(cart => cart.id === Number(idCart));
+            if (existCart) {
+                const existProdInCart = existCart.products.find(product => product.product === Number(idProduct));
+                if (existProdInCart) {
+                    existProdInCart.quantity += 1;
+                } else {
+                    const product = {
+                        product: Number(idProduct),
+                        quantity: 1
+                    };
+                    existCart.products.push(product);
+                }
+                await fs.promises.writeFile(this.path, JSON.stringify(carts));
+                return existCart;
             }
-            await fs.promises.writeFile(this.path, JSON.stringify(carts));
-            return existCart;
+
+        } catch (error) {
+            console.log(error);
         }
     }
 }

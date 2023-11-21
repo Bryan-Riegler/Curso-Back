@@ -19,7 +19,7 @@ export class ProductManager {
     async getProductById(id) {
         try {
             const products = await this.getProducts();
-            const product = products.find((product) => product.id === id);
+            const product = products.find((product) => product.id === Number(id));
             if (!product) {
                 return false;
             } else return product;
@@ -54,22 +54,25 @@ export class ProductManager {
 
 
     }
-    async updateProduct(obj, id) {
+    async updateProduct(id, obj) {
         try {
             const products = await this.getProducts();
-            const productIndex = products.findIndex((product) => product.id === id)
+            const productIndex = products.findIndex((product) => product.id === Number(id));
 
             if (productIndex === -1) {
                 return false;
             } else {
-                const updatedProduct = { ...obj, id };
+                const updatedProduct = { ...obj, id: Number(id) };
                 products[productIndex] = updatedProduct;
+
+                await fs.promises.writeFile(this.path, JSON.stringify(products));
+                return updatedProduct;
             }
 
 
-            await fs.promises.writeFile(this.path, JSON.stringify(products));
         } catch (error) {
             console.log(error);
+            return false;
         }
 
     }
@@ -77,11 +80,18 @@ export class ProductManager {
     async deleteProduct(id) {
         try {
             const products = await this.getProducts();
-            if (products.length < 0) return false;
-            const newArray = products.filter(p => p.id !== id);
+
+            const productToDelete = products.find(p => p.id === Number(id));
+            if (!productToDelete) {
+                return false;
+            }
+
+            const newArray = products.filter(p => p.id !== Number(id));
             await fs.promises.writeFile(this.path, JSON.stringify(newArray));
+            return true;
         } catch (error) {
             console.log(error);
+            return false;
         }
     }
 }

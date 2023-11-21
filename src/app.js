@@ -1,3 +1,4 @@
+import "./db/database.js";
 import express from "express";
 import productRouter from "./routes/product.router.js";
 import cartRouter from "./routes/cart.router.js";
@@ -5,8 +6,7 @@ import { __dirname } from "./utils.js";
 import handlebars from "express-handlebars";
 import viewRouter from "./routes/views.router.js";
 import { Server } from "socket.io";
-import { ProductManager } from "./manager/productManager.js";
-const productManager = new ProductManager("./src/data/products.json");
+import { errorHandler } from "./middlewares/errorHandler.js";
 
 const app = express();
 
@@ -19,9 +19,10 @@ app.set("views", __dirname + '/views');
 app.set("view engine", "handlebars");
 
 
-app.use("/api/products", productRouter)
+app.use("/api/products", productRouter);
 app.use("/api/carts", cartRouter);
 app.use("/", viewRouter);
+app.use(errorHandler)
 
 const port = 8080
 
