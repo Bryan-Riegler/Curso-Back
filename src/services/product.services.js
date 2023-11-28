@@ -7,9 +7,9 @@ const productDao = new ProductDaoMongo();
 
 
 
-export const getProducts = async () => {
+export const getProducts = async (page, limit, category, sort) => {
     try {
-        return await productDao.getProducts();
+        return await productDao.getProducts(page, limit, category, sort);
     } catch (error) {
         console.log(error);
     }

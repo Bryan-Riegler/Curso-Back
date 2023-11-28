@@ -42,3 +42,43 @@ export const addProductToCart = async (idCart, idProduct) => {
         console.log(error);
     }
 }
+
+export const deleteProduct = async (idCart, idProduct) => {
+    try {
+        const deleteProduct = await cartDao.deleteProduct(idCart, idProduct);
+        if (!deleteProduct) return false;
+        else return deleteProduct;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const updateQuantity = async (idCart, idProduct, quantity) => {
+    try {
+        const updateQuantity = await cartDao.updateQuantity(idCart, idProduct, quantity);
+        if (!updateQuantity) return false;
+        else return updateQuantity;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const clearCart = async (idCart) => {
+    try {
+        const clearCart = await cartDao.clearCart(idCart);
+        if (!clearCart) return false;
+        else return clearCart;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const updateProducts = async (idCart, array) => {
+    try {
+        const updateProducts = await cartDao.updateProducts(idCart, array);
+        if (!updateProducts) return false;
+        else return updateProducts;
+    } catch (error) {
+        console.log(error);
+    }
+}

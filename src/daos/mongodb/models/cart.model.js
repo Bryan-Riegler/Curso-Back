@@ -5,8 +5,7 @@ export const cartsCollection = "carts";
 export const cartSchema = new Schema({
     products: [
         {
-            product: { type: "string", required: true },
-            quantity: { type: "number", required: true }
+            product: { type: Schema.Types.ObjectId, ref: "Product" }
         }
     ]
 });

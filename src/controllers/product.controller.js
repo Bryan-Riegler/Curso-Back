@@ -2,14 +2,26 @@ import * as service from "../services/product.services.js";
 
 export const getProducts = async (req, res, next) => {
     try {
-        const { limit } = req.query;
-        const allProducts = await service.getProducts();
-        const productsLimit = allProducts.slice(0, limit);
-        if (!limit) {
-            res.status(200).json(allProducts);
-        } else {
-            res.status(200).json(productsLimit);
-        }
+        const { page, limit, category, sort } = req.query;
+        const allProducts = await service.getProducts(page, limit, category, sort);
+        const next = allProducts.hasNextPage ? `http://localhost:8080/api/products?page=${allProducts.nextPage}` : null;
+        const prev = allProducts.hasPrevPage ? `http://localhost:8080/api/products?page=${allProducts.prevPage}` : null;
+        const status = allProducts ? "Success" : "Error";
+
+        if (!allProducts) res.status(404).json({ message: `Products not found with ${category} category` });
+        else res.status(200).json({
+            status,
+            payload: allProducts.docs,
+            totalPages: allProducts.totalPages,
+            prevPage: allProducts.prevPage,
+            nextPage: allProducts.nextPage,
+            page: allProducts.page,
+            hasPrevPage: allProducts.hasPrevPage,
+            hasNextPage: allProducts.hasNextPage,
+            prev,
+            next
+        });
+
     } catch (error) {
         next(error.message);
     }
