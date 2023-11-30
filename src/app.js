@@ -6,6 +6,7 @@ import { __dirname } from "./utils.js";
 import handlebars from "express-handlebars";
 import viewRouter from "./routes/views.router.js";
 import { Server } from "socket.io";
+import * as service from "./services/chat.services.js"
 import { errorHandler } from "./middlewares/errorHandler.js";
 
 const app = express();
@@ -32,7 +33,7 @@ const socketServer = new Server(httpServer);
 
 socketServer.on("connection", async (socket) => {
     console.log(`conected ${socket.id}`)
-    socket.emit("products", await productManager.getProducts());
+    // socket.emit("products", await productManager.getProducts());
 
     socket.on("addProduct", async (product) => {
         await productManager.addProduct(product);
@@ -42,5 +43,24 @@ socketServer.on("connection", async (socket) => {
     socket.on("selectProduct", async (productId) => {
         await productManager.deleteProduct(Number(productId));
         socketServer.emit("products", await productManager.getProducts());
+    })
+
+    socketServer.emit("messages", await service.getAll());
+
+    socket.on("disconnect", () => console.log(`user disconnected ${socket.id}`));
+
+    socket.on("newUser", (user) => console.log(`${user} inicio sesion`))
+
+    socket.on("chat:message", async (msg) => {
+        await service.createMessage(msg);
+        socketServer.emit("messages", await service.getAll());
+    })
+
+    socket.on("newUser", (user) => {
+        socket.broadcast.emit("newUser", user);
+    })
+
+    socket.on("chat:typing", (user) => {
+        socket.broadcast.emit("chat:typing", user);
     })
 })
