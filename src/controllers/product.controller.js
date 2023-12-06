@@ -23,9 +23,45 @@ export const getProducts = async (req, res, next) => {
         });
 
     } catch (error) {
-        next(error.message);
+        console.log(error);
     }
 };
+
+export const getProductsRender = async (req, res) => {
+    try {
+        const { page, limit, category, sort } = req.query;
+        const allProducts = await service.getProducts(page, limit, category, sort);
+        const next = allProducts.hasNextPage ? `http://localhost:8080/api/products?page=${allProducts.nextPage}` : null;
+        const prev = allProducts.hasPrevPage ? `http://localhost:8080/api/products?page=${allProducts.prevPage}` : null;
+        const status = allProducts ? "Success" : "Error";
+
+        if (!allProducts) res.status(404).json({ message: `Products not found with ${category} category` });
+        else {
+            const welcomeMessage = req.session.firstName ? `Welcome, ${req.session.firstName}!` : 'Welcome!';
+
+
+            const responseJSON = {
+                status,
+                welcomeMessage,
+                payload: allProducts.docs,
+                totalPages: allProducts.totalPages,
+                prevPage: allProducts.prevPage,
+                nextPage: allProducts.nextPage,
+                page: allProducts.page,
+                hasPrevPage: allProducts.hasPrevPage,
+                hasNextPage: allProducts.hasNextPage,
+                prev,
+                next
+            };
+
+            res.status(200).json(responseJSON);
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 
 export const getProductById = async (req, res, next) => {
     try {

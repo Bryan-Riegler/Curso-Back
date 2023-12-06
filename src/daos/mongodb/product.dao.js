@@ -19,15 +19,13 @@ export default class ProductDaoMongo {
 
         try {
             const result = await ProductModel.paginate(query, options);
-            if (result.docs.length === 0) {
-                return false;
-            }
             return result;
 
         } catch (error) {
             console.log(error);
         }
     }
+
 
     async getProductById(id) {
         try {

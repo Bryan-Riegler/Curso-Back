@@ -1,17 +1,11 @@
 import { Router } from "express";
 const router = Router();
-import { ProductManager } from "../daos/fs/productManager.js";
-const productManager = new ProductManager("./src/data/products.json");
+// import { ProductManager } from "../daos/fs/productManager.js";
+// const productManager = new ProductManager("./src/data/products.json");
+import * as controller from "../controllers/product.controller.js"
+import * as userController from "../controllers/user.controller.js"
 
-router.get("/home", async (req, res) => {
-    try {
-        const products = await productManager.getProducts();
-        res.status(200).render("home", { products });
-
-    } catch (error) {
-        res.status(500).console.log(error);
-    }
-})
+router.get("/home", controller.getProductsRender)
 
 router.get("/realtimeproducts", (req, res) => {
     res.render("realTimeProducts")
@@ -20,5 +14,25 @@ router.get("/realtimeproducts", (req, res) => {
 router.get("/chat", (req, res) => {
     res.render("chat")
 })
+
+router.get("/", (req, res) => {
+    res.render("login")
+})
+
+router.get("/postman", userController.login) // login desde postman
+
+router.get("/register", (req, res) => {
+    res.render("register")
+})
+router.get("/registerError", (req, res) => {
+    res.render("registerError");
+});
+router.get("/loginError", (req, res) => {
+    res.render("loginError");
+});
+
+
+
+
 
 export default router;

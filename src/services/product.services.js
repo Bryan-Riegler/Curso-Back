@@ -15,6 +15,14 @@ export const getProducts = async (page, limit, category, sort) => {
     }
 }
 
+export const getProductsRender = async () => {
+    try {
+        return await productDao.getProductsRender();
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export const getProductById = async (id) => {
     try {
         const product = await productDao.getProductById(id);

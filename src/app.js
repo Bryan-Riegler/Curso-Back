@@ -1,28 +1,52 @@
 import "./db/database.js";
 import express from "express";
+import cookieParser from "cookie-parser";
+import session from "express-session";
+import { url } from "./db/database.js";
+import MongoStore from "connect-mongo";
 import productRouter from "./routes/product.router.js";
 import cartRouter from "./routes/cart.router.js";
 import { __dirname } from "./utils.js";
 import handlebars from "express-handlebars";
 import viewRouter from "./routes/views.router.js";
+import userRouter from "./routes/user.router.js";
 import { Server } from "socket.io";
 import * as service from "./services/chat.services.js"
 import { errorHandler } from "./middlewares/errorHandler.js";
 
 const app = express();
+app.use(cookieParser());
+
+const mongoStoreOptions = {
+    store: MongoStore.create({
+        mongoUrl: url,
+        ttl: 60
+    }),
+    secret: "1234",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 60000,
+        sameSite: "lax",
+        secure: false,
+    },
+};
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '/public'));
 
 app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + '/views');
 app.set("view engine", "handlebars");
 
+app.use(session(mongoStoreOptions))
 
 app.use("/api/products", productRouter);
 app.use("/api/carts", cartRouter);
 app.use("/", viewRouter);
+app.use("/user", userRouter);
 app.use(errorHandler)
 
 const port = 8080
