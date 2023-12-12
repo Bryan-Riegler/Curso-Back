@@ -13,6 +13,8 @@ import userRouter from "./routes/user.router.js";
 import { Server } from "socket.io";
 import * as service from "./services/chat.services.js"
 import { errorHandler } from "./middlewares/errorHandler.js";
+import passport from "passport";
+import './passport/github-strategy.js'
 
 const app = express();
 app.use(cookieParser());
@@ -42,6 +44,9 @@ app.set("views", __dirname + '/views');
 app.set("view engine", "handlebars");
 
 app.use(session(mongoStoreOptions))
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/api/products", productRouter);
 app.use("/api/carts", cartRouter);

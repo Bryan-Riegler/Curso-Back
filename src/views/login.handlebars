@@ -8,5 +8,12 @@
 
     <button type="submit">Login</button>
 </form>
+<button onclick="redirectToPage()">Ingresa con GitHub</button>
 
 <p>¿No estas registrado? <a href="/register">Regístrate</a></p>
+
+<script>
+    function redirectToPage() {
+        window.location.href = '/user/register-github';
+    }
+</script>
