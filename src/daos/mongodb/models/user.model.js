@@ -33,7 +33,12 @@ const userSchema = new Schema({
     avatar: {
         type: String,
         default: "",
+    },
+    cart: {
+        type: String,
+        default: "",
     }
+
 })
 
 export const userModel = model("users", userSchema);

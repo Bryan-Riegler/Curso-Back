@@ -55,7 +55,7 @@ export const getProfile = async (req, res, next) => {
 export const gitHubResponse = async (req, res, next) => {
     try {
         console.log(req.user);
-        const { firstName, lastName, email, isGithub, avatar } = req.user
+        const { firstName, lastName, email, isGithub, avatar, cart } = req.user
         req.session.firstName = firstName
         res.json({
             msg: "Registered or logged in as a GitHub account",
@@ -66,6 +66,7 @@ export const gitHubResponse = async (req, res, next) => {
                 email,
                 isGithub,
                 avatar,
+                cart
             }
         })
     } catch (error) {

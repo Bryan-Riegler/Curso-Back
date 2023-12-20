@@ -1,5 +1,7 @@
 import { comparePassword, createHash } from "../../utils.js";
 import { userModel } from "./models/user.model.js";
+import CartDao from "./cart.dao.js"
+const cartDao = new CartDao();
 
 export default class UserDao {
     async findByEmail(email) {
@@ -17,7 +19,12 @@ export default class UserDao {
                 return await userModel.create({ ...user, password: createHash(password), role: 'admin' });
             }
             const exist = await this.findByEmail(email);
-            if (!exist) return await userModel.create({ ...user, password: createHash(password) });
+            if (!exist) {
+                const cart = await cartDao.createCart();
+                const cartId = cart._id;
+                const newUser = await userModel.create({ ...user, password: createHash(password), cart: cartId });
+                return newUser;
+            }
             else return false;
         } catch (error) {
             console.log(error);
