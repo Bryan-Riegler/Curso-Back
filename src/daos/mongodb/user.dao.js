@@ -16,7 +16,9 @@ export default class UserDao {
         try {
             const { email, password } = user;
             if (email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
-                return await userModel.create({ ...user, password: createHash(password), role: 'admin' });
+                const cart = await cartDao.createCart();
+                const cartId = cart._id;
+                return await userModel.create({ ...user, password: createHash(password), role: 'admin', cart: cartId });
             }
             const exist = await this.findByEmail(email);
             if (!exist) {
