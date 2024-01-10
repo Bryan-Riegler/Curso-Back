@@ -1,6 +1,6 @@
 import { connect } from "mongoose";
-
-export const url = "mongodb+srv://admin:9zPmib85qRT09Fwh@cluster0.awh1e7y.mongodb.net/CursoCoder?retryWrites=true&w=majority"
+import "dotenv/config"
+export const url = process.env.MONGO_URL
 
 try {
     await connect(url);

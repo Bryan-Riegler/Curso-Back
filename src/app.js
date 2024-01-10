@@ -1,3 +1,4 @@
+import "dotenv/config"
 import "./db/database.js";
 import express from "express";
 import cookieParser from "cookie-parser";
@@ -54,7 +55,7 @@ app.use("/", viewRouter);
 app.use("/user", userRouter);
 app.use(errorHandler)
 
-const port = 8080
+const port = process.env.PORT
 
 const httpServer = app.listen(port, () => console.log(`localhost:${port}`));
 
