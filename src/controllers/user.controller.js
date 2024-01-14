@@ -1,4 +1,7 @@
+import UserDao from "../daos/mongodb/user.dao.js";
+const userDao = new UserDao();
 import * as service from "../services/user.services.js";
+import { generateToken } from "../jwt/auth.js";
 
 export const register = async (req, res, next) => {
     try {
@@ -25,6 +28,48 @@ export const login = async (req, res, next) => {
         next(error.message);
     }
 }
+
+export const loginJwt = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
+        const user = await userDao.login(email, password);
+        if (!user) res.json({ msg: "Invalid user" })
+        const accessToken = generateToken(user);
+        // res.header("Authorization", accessToken).json({ msg: "login ok", accessToken })
+        res.cookie("Authorization", accessToken, { httpOnly: true }).json({ msg: "login ok", accessToken });
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const registerJwt = async (req, res, next) => {
+    try {
+        const { firstName, lastName, email, age, password } = req.body;
+        const exist = await userDao.findByEmail(email);
+        if (exist) return res.status(400).json({ msg: "User already exists" });
+        const user = { firstName, lastName, email, age, password };
+        const newUser = await userDao.register(user);
+        res.json({
+            msg: "Register OK",
+            newUser,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const privateRoute = async (req, res) => {
+    const { firstName, lastName, email, role } = req.user;
+    res.json({
+        status: "success",
+        userData: {
+            firstName,
+            lastName,
+            email,
+            role,
+        },
+    });
+};
 
 export const logout = (req, res) => {
     req.session.destroy((err) => {

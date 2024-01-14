@@ -21,6 +21,8 @@ export const login = async (email, password) => {
     }
 }
 
+
+
 export const getUserProfile = async (userId) => {
     try {
         const user = await userDao.findUserById(userId);
