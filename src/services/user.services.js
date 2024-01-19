@@ -1,5 +1,7 @@
 import UserDao from "../daos/mongodb/user.dao.js";
 const userDao = new UserDao();
+import UserRepository from "../repository/user.repository.js";
+const userRepository = new UserRepository();
 
 export const register = async (user) => {
     try {
@@ -25,10 +27,10 @@ export const login = async (email, password) => {
 
 export const getUserProfile = async (userId) => {
     try {
-        const user = await userDao.findUserById(userId);
+        const user = await userRepository.getProfile(userId);
         if (!user) return false;
-        const { _id, __v, password, ...userData } = user.toObject();
-        return userData;
+        // const { _id, __v, password, ...userData } = user.toObject();
+        return user;
     } catch (error) {
         console.log(error);
     }
