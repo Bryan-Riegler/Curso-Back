@@ -1,6 +1,7 @@
 import { Router } from "express";
 import * as controller from "../controllers/cart.controller.js";
 import { checkUserRole } from "../middlewares/checkUserRole.js";
+import { Ticket } from "../controllers/ticket.controller.js";
 
 const router = Router();
 
@@ -17,5 +18,7 @@ router.put("/:idCart/product/:idProduct", controller.updateQuantity);
 router.delete("/:idCart", controller.clearCart);
 
 router.put("/:idCart", controller.updateProducts);
+
+router.post("/:cartId/purchase", Ticket);
 
 export default router;
