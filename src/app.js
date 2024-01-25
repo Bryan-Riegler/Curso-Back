@@ -7,7 +7,7 @@ import { url } from "./db/database.js";
 import MongoStore from "connect-mongo";
 import productRouter from "./routes/product.router.js";
 import cartRouter from "./routes/cart.router.js";
-import { __dirname } from "./utils.js";
+import { __dirname } from "./utils/dirname.js";
 import handlebars from "express-handlebars";
 import viewRouter from "./routes/views.router.js";
 import userRouter from "./routes/user.router.js";

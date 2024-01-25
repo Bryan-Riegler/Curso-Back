@@ -1,4 +1,4 @@
-import { comparePassword, createHash } from "../../utils.js";
+import { comparePassword, createHash } from "../../utils/hashPassword.js";
 import { userModel } from "./models/user.model.js";
 import CartDao from "./cart.dao.js"
 const cartDao = new CartDao();

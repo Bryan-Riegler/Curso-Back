@@ -1,5 +1,3 @@
-import CartDaoMongo from "../daos/mongodb/cart.dao.js";
-const cartDao = new CartDaoMongo();
 import { ProductModel } from "../daos/mongodb/models/product.model.js";
 import { CartModel } from "../daos/mongodb/models/cart.model.js";
 

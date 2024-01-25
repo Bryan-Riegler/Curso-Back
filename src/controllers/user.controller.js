@@ -22,7 +22,6 @@ export const login = async (req, res, next) => {
             req.session.password = password;
             req.session.firstName = user.firstName;
             req.session.userId = user._id;
-            console.log(req.session.userId);
             res.redirect("/home");
         } else res.redirect("/loginError");
     } catch (error) {

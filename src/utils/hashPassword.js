@@ -1,7 +1,3 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-export const __dirname = dirname(fileURLToPath(import.meta.url));
-
 import { hashSync, genSaltSync, compareSync } from "bcrypt";
 export const createHash = (password) => {
     if (!password) {

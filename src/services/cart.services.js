@@ -2,7 +2,7 @@ import CartDaoMongo from "../daos/mongodb/cart.dao.js";
 const cartDao = new CartDaoMongo();
 
 // import { CartManager } from "../daos/fs/cartManager.js";
-// import { __dirname } from "../utils.js";
+// import { __dirname } from "../utils/dirname.js";
 // const cartDao = new CartManager(__dirname + "/data/carts.json");
 
 export const getCarts = async () => {

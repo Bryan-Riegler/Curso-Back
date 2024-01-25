@@ -2,7 +2,7 @@ import ProductDaoMongo from "../daos/mongodb/product.dao.js";
 const productDao = new ProductDaoMongo();
 
 // import { ProductManager } from "../daos/fs/productManager.js";
-// import { __dirname } from "../utils.js";
+// import { __dirname } from "../utils/dirname.js";
 // const productDao = new ProductManager(__dirname + "/data/products.json");
 
 
