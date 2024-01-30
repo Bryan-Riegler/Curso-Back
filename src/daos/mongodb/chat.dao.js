@@ -7,7 +7,7 @@ export default class MessageDao {
             const response = await messageModel.find();
             return response;
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message)
         }
     }
 
@@ -16,7 +16,7 @@ export default class MessageDao {
             const response = await messageModel.create(msg);
             return response;
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message)
         }
     }
 }

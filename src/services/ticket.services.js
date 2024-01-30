@@ -30,6 +30,6 @@ export const createTicket = async (cartId, email) => {
         await cart.save();
         return response;
     } catch (error) {
-        console.log(error);
+        throw new Error(error.message)
     }
 }

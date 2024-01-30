@@ -14,7 +14,7 @@ export default class TicketDao {
             const ticket = ticketModel.create({ code, amount, purcharser, price });
             return ticket;
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message)
         }
 
     }

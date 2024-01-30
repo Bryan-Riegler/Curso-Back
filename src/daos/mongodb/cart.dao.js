@@ -8,7 +8,7 @@ export default class CartDaoMongo {
             const response = await CartModel.findOne({});
             return response
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message)
         }
     }
 
@@ -24,7 +24,7 @@ export default class CartDaoMongo {
                 .exec();
             return response;
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message)
         }
     }
 
@@ -37,7 +37,7 @@ export default class CartDaoMongo {
             const response = await CartModel.create(cart);
             return response;
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message)
         }
     }
 
@@ -62,7 +62,7 @@ export default class CartDaoMongo {
                 return response;
             }
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message)
         }
 
     }
@@ -93,8 +93,7 @@ export default class CartDaoMongo {
             return response;
 
         } catch (error) {
-            console.log(error);
-            throw error;
+            throw new Error(error.message)
         }
     }
 
@@ -121,7 +120,7 @@ export default class CartDaoMongo {
             }
 
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message)
         }
     }
 
@@ -140,7 +139,7 @@ export default class CartDaoMongo {
             return resonse;
 
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message)
         }
     }
 
@@ -173,7 +172,7 @@ export default class CartDaoMongo {
             return response;
 
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message)
         }
     }
 }

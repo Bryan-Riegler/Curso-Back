@@ -6,7 +6,7 @@ export const getAll = async () => {
         const messages = await messageDao.getAll();
         return messages;
     } catch (error) {
-        console.log(error);
+        throw new Error(error.message)
     }
 }
 
@@ -15,6 +15,6 @@ export const createMessage = async (msg) => {
         const message = await messageDao.createMessage(msg);
         return message;
     } catch (error) {
-        console.log(error);
+        throw new Error(error.message)
     }
 }

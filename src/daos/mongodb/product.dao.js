@@ -22,7 +22,7 @@ export default class ProductDaoMongo {
             return result;
 
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message)
         }
     }
 
@@ -32,7 +32,7 @@ export default class ProductDaoMongo {
             const response = await ProductModel.findById(id);
             return response;
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message)
         }
     }
 
@@ -45,7 +45,7 @@ export default class ProductDaoMongo {
             const response = await ProductModel.create(product);
             return response;
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message)
         }
     }
 
@@ -54,7 +54,7 @@ export default class ProductDaoMongo {
             const response = await ProductModel.findByIdAndUpdate(id, obj, { new: true });
             return response;
         } catch (error) {
-            console.log(error);
+            throw new Error(error.message)
         }
     }
 
@@ -63,7 +63,7 @@ export default class ProductDaoMongo {
             const response = await ProductModel.findByIdAndDelete(id);
             return response;
         } catch (error) {
-            console.log(error)
+            throw new Error(error.message)
         }
     }
 }

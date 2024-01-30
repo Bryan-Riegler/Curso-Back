@@ -9,7 +9,7 @@ export const register = async (user) => {
         if (!response) return false;
         else return response;
     } catch (error) {
-        console.log(error);
+        throw new Error(error.message)
     }
 }
 
@@ -19,7 +19,7 @@ export const login = async (email, password) => {
         if (!response) return false;
         else return response;
     } catch (error) {
-        console.log(error);
+        throw new Error(error.message)
     }
 }
 
@@ -32,6 +32,6 @@ export const getUserProfile = async (userId) => {
         // const { _id, __v, password, ...userData } = user.toObject();
         return user;
     } catch (error) {
-        console.log(error);
+        throw new Error(error.message)
     }
 };

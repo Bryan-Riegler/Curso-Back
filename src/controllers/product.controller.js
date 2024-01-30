@@ -1,4 +1,5 @@
 import * as service from "../services/product.services.js";
+import { errorsDictionary } from "../utils/errorsDictionary.js";
 
 export const getProducts = async (req, res, next) => {
     try {
@@ -23,7 +24,7 @@ export const getProducts = async (req, res, next) => {
         });
 
     } catch (error) {
-        console.log(error);
+        throw new Error(error.message)
     }
 };
 
@@ -58,7 +59,7 @@ export const getProductsRender = async (req, res) => {
         }
 
     } catch (error) {
-        console.log(error);
+        throw new Error(error.message)
     }
 };
 
@@ -67,20 +68,20 @@ export const getProductById = async (req, res, next) => {
     try {
         const { id } = req.params;
         const product = await service.getProductById(id)
-        if (!product) res.status(404).json({ message: 'Product not found' });
+        if (!product) res.status(404).json({ message: errorsDictionary.ERROR_FIND_ });
         else res.status(200).json(product);
     } catch (error) {
-        next(error.message);
+        next(error);
     }
 };
 
 export const addProduct = async (req, res, next) => {
     try {
         const newProduct = await service.addProduct(req.body);
-        if (!newProduct) res.status(404).json({ message: 'Error creating product' });
+        if (!newProduct) res.status(404).json({ message: errorsDictionary.ERROR_CREATE });
         else res.status(200).json(newProduct);
     } catch (error) {
-        next(error.message);
+        next(error);
     }
 };
 
@@ -88,10 +89,10 @@ export const updateProduct = async (req, res, next) => {
     try {
         const { id } = req.params;
         const productUpdated = await service.updateProduct(id, req.body);
-        if (!productUpdated) res.status(404).json({ message: 'Error updating product' });
+        if (!productUpdated) res.status(404).json({ message: errorsDictionary.ERROR_UPDATE });
         else res.status(200).json(productUpdated);
     } catch (error) {
-        next(error.message);
+        next(error);
     }
 };
 
@@ -99,9 +100,9 @@ export const deleteProduct = async (req, res, next) => {
     try {
         const { id } = req.params;
         const productDeleted = await service.deleteProduct(id);
-        if (!productDeleted) res.status(404).json({ message: 'Error deleting product' });
+        if (!productDeleted) res.status(404).json({ message: errorsDictionary.ERROR_DELETE });
         else res.status(200).json({ message: `Product with id: ${id} deleted` });
     } catch (error) {
-        next(error.message);
+        next(error);
     }
 };

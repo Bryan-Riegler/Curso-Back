@@ -7,10 +7,11 @@ import { url } from "./db/database.js";
 import MongoStore from "connect-mongo";
 import productRouter from "./routes/product.router.js";
 import cartRouter from "./routes/cart.router.js";
-import { __dirname } from "./utils/dirname.js";
+import { __dirname } from "./dirname.js";
 import handlebars from "express-handlebars";
 import viewRouter from "./routes/views.router.js";
 import userRouter from "./routes/user.router.js";
+import fakeRouter from "./routes/fake.router.js";
 import { Server } from "socket.io";
 import * as service from "./services/chat.services.js"
 import { errorHandler } from "./middlewares/errorHandler.js";
@@ -53,6 +54,7 @@ app.use("/api/products", productRouter);
 app.use("/api/carts", cartRouter);
 app.use("/", viewRouter);
 app.use("/user", userRouter);
+app.use("/api/fake", fakeRouter);
 app.use(errorHandler)
 
 const port = process.env.PORT

@@ -9,7 +9,7 @@ export const register = async (req, res, next) => {
         if (user) res.redirect("/");
         else res.redirect("/registerError")
     } catch (error) {
-        next(error.message);
+        next(error);
     }
 }
 
@@ -25,7 +25,7 @@ export const login = async (req, res, next) => {
             res.redirect("/home");
         } else res.redirect("/loginError");
     } catch (error) {
-        next(error.message);
+        next(error);
     }
 }
 
@@ -38,7 +38,7 @@ export const loginJwt = async (req, res, next) => {
         // res.header("Authorization", accessToken).json({ msg: "login ok", accessToken })
         res.cookie("Authorization", accessToken, { httpOnly: true }).json({ msg: "login ok", accessToken });
     } catch (error) {
-        console.log(error)
+        next(error)
     }
 }
 
@@ -115,6 +115,6 @@ export const gitHubResponse = async (req, res, next) => {
             }
         })
     } catch (error) {
-        next(error.message)
+        next(error)
     }
 }
