@@ -18,7 +18,7 @@ export const getCartById = async (req, res, next) => {
         if (!cart) res.status(404).json({ message: errorsDictionary.ERROR_FIND_ });
         else res.status(200).json(cart);
     } catch (error) {
-        next(error.message);
+        next(error);
     }
 };
 
@@ -28,7 +28,7 @@ export const createCart = async (req, res, next) => {
         if (!newCart) res.status(404).json({ message: errorsDictionary.ERROR_CREATE });
         else res.status(200).json(newCart);
     } catch (error) {
-        next(error.message);
+        next(error);
     }
 }
 
@@ -47,14 +47,13 @@ export const addProductToCart = async (req, res, next) => {
 
         }
     } catch (error) {
-        next(error.message);
+        next(error);
     }
 }
 
 export const deleteProduct = async (req, res, next) => {
     try {
         const { idCart, idProduct } = req.params;
-        console.log(idProduct, idCart);
 
         const deleteProd = await service.deleteProduct(idCart, idProduct);
         if (!deleteProd) {

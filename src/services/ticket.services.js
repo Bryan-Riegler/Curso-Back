@@ -4,14 +4,21 @@ import CartDaoMongo from "../daos/mongodb/cart.dao.js";
 const cartdao = new CartDaoMongo();
 import { validateStock } from "../utils/validateStock.js";
 import { updateProductsStock } from "../utils/updateProductsStock.js";
+import { logger } from "../utils/logger.js";
 
 export const createTicket = async (cartId, email) => {
     try {
         const isStock = await validateStock(cartId)
-        if (!isStock) return false;
+        if (!isStock) {
+            logger.error("Stock error")
+            return false;
+        }
 
         const cart = await cartdao.getCartById(cartId);
-        if (!cart) return false;
+        if (!cart) {
+            logger.error("Cart not found")
+            return false;
+        }
 
         const productsToUpdateStock = cart.products.map((cartItem) => ({
             productId: cartItem.product,

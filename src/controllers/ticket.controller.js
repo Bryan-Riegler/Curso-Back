@@ -4,15 +4,16 @@ import { privateKey } from "../jwt/auth.js";
 import UserDao from "../daos/mongodb/user.dao.js";
 import { errorsDictionary } from "../utils/errorsDictionary.js";
 const userDao = new UserDao();
+import { logger } from "../utils/logger.js"
 
 export const Ticket = async (req, res, next) => {
     try {
         if (req.cookies.Authorization) {
             const token = req.cookies.Authorization
             const decode = jwt.verify(token, privateKey)
-            console.log(decode)
+            logger.info(JSON.stringify(decode, null, 2));
             const user = await userDao.findUserById(decode.userId)
-            console.log(user)
+            logger.info(user);
             req.session.email = user.email
         }
 

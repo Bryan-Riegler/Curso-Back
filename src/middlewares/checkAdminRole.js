@@ -2,6 +2,7 @@ import UserDao from "../daos/mongodb/user.dao.js";
 const userDao = new UserDao();
 import jwt from "jsonwebtoken"
 import { privateKey } from "../jwt/auth.js";
+import { logger } from "../utils/logger.js"
 
 export const checkAdminRole = async (req, res, next) => {
     try {
@@ -19,6 +20,6 @@ export const checkAdminRole = async (req, res, next) => {
         } else res.status(403).json({ error: 'Acceso no autorizado' });
 
     } catch (error) {
-        console.log(error);
+        logger.error(error);
     }
 }

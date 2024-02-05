@@ -1,6 +1,7 @@
 import { CartModel } from "./models/cart.model.js";
 import mongoose from "mongoose";
 import { ProductModel } from "./models/product.model.js";
+import { logger } from "../../utils/logger.js"
 
 export default class CartDaoMongo {
     async getCarts() {
@@ -71,13 +72,13 @@ export default class CartDaoMongo {
         try {
             const objectIdCart = new mongoose.Types.ObjectId(idCart);
             const objectIdProduct = new mongoose.Types.ObjectId(idProduct);
-            console.log("Cart ID:", objectIdCart);
-            console.log("Product ID:", objectIdProduct);
+            logger.info("Cart ID:", objectIdCart);
+            logger.info("Product ID:", objectIdProduct);
 
             const cart = await CartModel.findById(objectIdCart);
 
             if (!cart) {
-                console.log("Cart not found");
+                logger.error("Cart not found");
                 return false;
             }
 
@@ -104,7 +105,7 @@ export default class CartDaoMongo {
 
             const cart = await CartModel.findById(objectIdCart);
             if (!cart) {
-                console.log("Cart not found");
+                logger.error("Cart not found");
                 return false;
             }
 
@@ -115,7 +116,7 @@ export default class CartDaoMongo {
                 const response = await cart.save();
                 return response;
             } else {
-                console.log("Product not found");
+                logger.error("Product not found");
                 return false;
             }
 
@@ -130,7 +131,7 @@ export default class CartDaoMongo {
             const cart = await CartModel.findById(objectIdCart);
 
             if (!cart) {
-                console.log("Cart not found");
+                logger.error("Cart not found");
                 return false;
             }
 
@@ -149,7 +150,7 @@ export default class CartDaoMongo {
             const cart = await CartModel.findById(objectIdCart);
 
             if (!cart) {
-                console.log("Cart not found");
+                logger.error("Cart not found");
                 return false;
             }
 
@@ -163,7 +164,7 @@ export default class CartDaoMongo {
                 if (existingProduct) {
                     productsToAdd.push({ product: existingProduct._id, quantity });
                 } else {
-                    console.log(`Product with ID ${productId} not found`);
+                    logger.error(`Product with ID ${productId} not found`);
                 }
             }
 

@@ -2,6 +2,7 @@ import UserDao from "../daos/mongodb/user.dao.js";
 const userDao = new UserDao();
 import * as service from "../services/user.services.js";
 import { generateToken } from "../jwt/auth.js";
+import { logger } from "../utils/logger.js"
 
 export const register = async (req, res, next) => {
     try {
@@ -74,10 +75,10 @@ export const privateRoute = async (req, res) => {
 export const logout = (req, res) => {
     req.session.destroy((err) => {
         if (err) {
-            console.error(err);
+            logger.error(err);
             res.status(500).send('Error al cerrar sesión');
         } else {
-            console.log('Sesión destruida');
+            logger.info('Sesión destruida');
             res.redirect('/');
         }
     });
@@ -92,14 +93,14 @@ export const getProfile = async (req, res, next) => {
         const userProfile = await service.getUserProfile(userId);
         res.status(200).json(userProfile);
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.status(500).json({ message: 'Server error' });
     }
 };
 
 export const gitHubResponse = async (req, res, next) => {
     try {
-        console.log(req.user);
+        logger.info(req.user);
         const { firstName, lastName, email, isGithub, avatar, cart } = req.user
         req.session.firstName = firstName
         res.json({

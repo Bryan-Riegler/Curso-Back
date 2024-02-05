@@ -1,4 +1,5 @@
 import { ProductModel } from "../daos/mongodb/models/product.model.js";
+import { logger } from "./logger.js"
 
 export const updateProductsStock = async (productsToUpdateStock) => {
     try {
@@ -8,7 +9,7 @@ export const updateProductsStock = async (productsToUpdateStock) => {
             const product = await ProductModel.findById(productId);
 
             if (!product) {
-                console.log("Product not found");
+                logger.error("Product not found");
                 return false;
             };
 
@@ -22,6 +23,6 @@ export const updateProductsStock = async (productsToUpdateStock) => {
 
         return true;
     } catch (error) {
-        console.log(error);
+        logger.error(error);
     }
 }

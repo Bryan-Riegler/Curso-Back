@@ -17,6 +17,8 @@ import * as service from "./services/chat.services.js"
 import { errorHandler } from "./middlewares/errorHandler.js";
 import passport from "passport";
 import './passport/github-strategy.js'
+import loggerRouter from "./routes/loggerTest.router.js"
+import { logger } from "./utils/logger.js";
 
 const app = express();
 app.use(cookieParser());
@@ -55,11 +57,12 @@ app.use("/api/carts", cartRouter);
 app.use("/", viewRouter);
 app.use("/user", userRouter);
 app.use("/api/fake", fakeRouter);
+app.use("/log", loggerRouter)
 app.use(errorHandler)
 
 const port = process.env.PORT
 
-const httpServer = app.listen(port, () => console.log(`localhost:${port}`));
+const httpServer = app.listen(port, () => logger.info(`localhost:${port}`));
 
 const socketServer = new Server(httpServer);
 

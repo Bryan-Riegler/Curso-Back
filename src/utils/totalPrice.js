@@ -1,5 +1,6 @@
 import { ProductModel } from "../daos/mongodb/models/product.model.js";
 import { CartModel } from "../daos/mongodb/models/cart.model.js";
+import { logger } from "./logger.js"
 
 export const totalPrice = async (idCart) => {
     try {
@@ -17,6 +18,6 @@ export const totalPrice = async (idCart) => {
         }, 0);
         return totalPrice
     } catch (error) {
-        console.log(error);
+        logger.error(error);
     }
 }

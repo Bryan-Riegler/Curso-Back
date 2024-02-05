@@ -2,13 +2,14 @@ import { comparePassword, createHash } from "../../utils/hashPassword.js";
 import { userModel } from "./models/user.model.js";
 import CartDao from "./cart.dao.js"
 const cartDao = new CartDao();
+import { logger } from "../../utils/logger.js";
 
 export default class UserDao {
     async findByEmail(email) {
         try {
             return await userModel.findOne({ email });
         } catch (error) {
-            console.log(error);
+            logger.error(error);
         }
     }
 

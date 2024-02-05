@@ -2,6 +2,7 @@ import CartDaoMongo from "../daos/mongodb/cart.dao.js";
 const cartDao = new CartDaoMongo();
 import { CartModel } from "../daos/mongodb/models/cart.model.js";
 import { ProductModel } from "../daos/mongodb/models/product.model.js";
+import { logger } from "./logger.js"
 
 export const totalAmount = async (idCart) => {
     try {
@@ -17,6 +18,6 @@ export const totalAmount = async (idCart) => {
         }, 0);
         return total;
     } catch (error) {
-        console.log(error);
+        logger.error(error);
     }
 }

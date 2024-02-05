@@ -12,7 +12,6 @@ const strategyOptions = {
 }
 
 const registerLogin = async (accessToken, refreshToken, profile, done) => {
-    // console.log(profile);
     const email = profile._json.email || profile._json.name;
     const fullName = profile._json.name;
     const nameParts = fullName.split(' ');

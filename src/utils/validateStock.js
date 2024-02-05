@@ -1,6 +1,7 @@
 import CartDaoMongo from "../daos/mongodb/cart.dao.js";
 const cartDao = new CartDaoMongo();
 import { ProductModel } from "../daos/mongodb/models/product.model.js";
+import { logger } from "./logger.js"
 
 export const validateStock = async (idCart) => {
     try {
@@ -14,6 +15,6 @@ export const validateStock = async (idCart) => {
 
 
     } catch (error) {
-        console.log(error);
+        logger.error(error);
     }
 }
