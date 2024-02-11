@@ -1,4 +1,4 @@
-import "dotenv/config"
+import config from "../config/config.js";
 import { createLogger, format, transports } from "winston";
 
 const { combine, printf, timestamp, colorize } = format;
@@ -22,7 +22,7 @@ const customLevels = {
     }
 }
 
-const transportType = process.env.TRANSPORT_TYPE
+const transportType = config.TRANSPORT_TYPE;
 
 let selectedTransport;
 

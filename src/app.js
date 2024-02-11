@@ -1,4 +1,4 @@
-import "dotenv/config"
+import config from "./config/config.js";
 import "./db/database.js";
 import express from "express";
 import cookieParser from "cookie-parser";
@@ -60,7 +60,7 @@ app.use("/api/fake", fakeRouter);
 app.use("/log", loggerRouter)
 app.use(errorHandler)
 
-const port = process.env.PORT
+const port = config.PORT
 
 const httpServer = app.listen(port, () => logger.info(`localhost:${port}`));
 

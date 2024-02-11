@@ -3,6 +3,7 @@ const userDao = new UserDao();
 import * as service from "../services/user.services.js";
 import { generateToken } from "../jwt/auth.js";
 import { logger } from "../utils/logger.js"
+import { errorsDictionary } from "../utils/errorsDictionary.js";
 
 export const register = async (req, res, next) => {
     try {
@@ -35,7 +36,7 @@ export const loginJwt = async (req, res, next) => {
         const { email, password } = req.body;
         const user = await userDao.login(email, password);
         if (!user) res.json({ msg: "Invalid user" })
-        const accessToken = generateToken(user);
+        const accessToken = generateToken(user, "15m");
         // res.header("Authorization", accessToken).json({ msg: "login ok", accessToken })
         res.cookie("Authorization", accessToken, { httpOnly: true }).json({ msg: "login ok", accessToken });
     } catch (error) {
@@ -49,7 +50,7 @@ export const registerJwt = async (req, res, next) => {
         const exist = await userDao.findByEmail(email);
         if (exist) return res.status(400).json({ msg: "User already exists" });
         const user = { firstName, lastName, email, age, password };
-        const newUser = await userDao.register(user);
+        const newUser = await service.register(user);
         res.json({
             msg: "Register OK",
             newUser,
@@ -115,6 +116,34 @@ export const gitHubResponse = async (req, res, next) => {
                 cart
             }
         })
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const resetPassword = async (req, res, next) => {
+    try {
+        const user = req.user;
+        const tokenPass = await service.resetPassword(user);
+        if (tokenPass) {
+            res.cookie("tokenPass", tokenPass);
+            return res.status(200).json({ msg: "Reset password email send" });
+        } else return res.status(404).json({ msg: "Email not send" })
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const updatePassword = async (req, res, next) => {
+    try {
+        const user = req.user;
+        const { password } = req.body;
+        const { tokenPass } = req.cookies;
+        if (!tokenPass) return res.status(404).json({ msg: errorsDictionary.TOKEN_NOT_FOUND });
+        const updPassword = await service.updatePassword(user, password);
+        if (!updPassword) return res.status(404).json({ msg: errorsDictionary.EQUAL_PASSWORD });
+        res.clearCookie("tokenPass");
+        return res.status(200).json({ msg: "Password updated successfully", updPassword })
     } catch (error) {
         next(error)
     }

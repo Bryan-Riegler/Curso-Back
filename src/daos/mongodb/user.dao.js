@@ -3,6 +3,7 @@ import { userModel } from "./models/user.model.js";
 import CartDao from "./cart.dao.js"
 const cartDao = new CartDao();
 import { logger } from "../../utils/logger.js";
+import { generateToken } from "../../jwt/auth.js";
 
 export default class UserDao {
     async findByEmail(email) {
@@ -55,5 +56,35 @@ export default class UserDao {
             throw new Error(error.message);
         }
     };
+
+    async resetPassword(user) {
+        try {
+            const { email } = user;
+            const userExist = await this.findByEmail(email);
+            if (userExist) return generateToken(userExist, "1h");
+            else return false;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async update(userId, updateFields) {
+        try {
+            return await userModel.findByIdAndUpdate(userId, updateFields, { new: true });
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    }
+
+    async updatePassword(user, password) {
+        try {
+            const isEqual = comparePassword(password, user)
+            if (isEqual) return false;
+            const newPassword = createHash(password);
+            return await this.update(user._id, { password: newPassword })
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
 }
 

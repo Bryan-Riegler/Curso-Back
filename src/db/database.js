@@ -1,6 +1,6 @@
 import { connect } from "mongoose";
-import "dotenv/config"
-export const url = process.env.MONGO_URL
+import config from "../config/config.js";
+export const url = config.MONGO_URL;
 import { logger } from "../utils/logger.js"
 
 try {
