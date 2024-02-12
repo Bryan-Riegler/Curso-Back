@@ -1,5 +1,7 @@
 import * as service from "../services/cart.services.js"
 import { getProductById } from "../services/product.services.js";
+import UserDao from "../daos/mongodb/user.dao.js";
+const userDao = new UserDao();
 import { errorsDictionary } from "../utils/errorsDictionary.js";
 
 export const getCarts = async (req, res, next) => {
@@ -37,16 +39,25 @@ export const addProductToCart = async (req, res, next) => {
         const { idCart } = req.params;
         const { idProduct } = req.params;
         const productExist = await getProductById(idProduct);
+        const user = await userDao.findUserById(req.user.id);
 
         if (!productExist) {
-            res.status(404).json({ message: errorsDictionary.ERROR_FIND_ })
+            res.status(404).json({ msg: errorsDictionary.ERROR_FIND_ });
         } else {
-            const addToCart = await service.addProductToCart(idCart, idProduct);
-            if (!addToCart) res.status(404).json({ message: 'error add product' });
-            else res.status(200).json({ message: `product with id:${idProduct} added to cart ${idCart}` });
-
+            if (user.role === "premium" && productExist.owner === user.email) {
+                res.status(403).json({ msg: "Premium user cannot add their own items" });
+            } else {
+                const addToCart = await service.addProductToCart(idCart, idProduct);
+                if (!addToCart) {
+                    res.status(404).json({ msg: errorsDictionary.ERROR_ADD_PRODUCT });
+                } else {
+                    res.status(200).json({ msg: `Product with id ${idProduct} added to cart ${idCart}` })
+                }
+            }
         }
-    } catch (error) {
+
+    }
+    catch (error) {
         next(error);
     }
 }

@@ -11,7 +11,8 @@ export const productsSchema = new Schema({
     code: { type: String, required: true },
     stock: { type: Number, required: true },
     category: { type: String, required: true },
-    status: { type: Boolean }
+    status: { type: Boolean },
+    owner: { type: String, default: "admin" }
 });
 
 productsSchema.plugin(mongoosePaginate)

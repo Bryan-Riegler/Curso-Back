@@ -17,7 +17,7 @@ const msgRegister = (firstName) => `<h1>Hola, ${firstName}</h1>`
 const msgReset = (firstName) => {
     return `<p>Hola ${firstName}
     Restablece la contraseña con este link en postman
-    
+    localhost:8080/user/updatePassword
     </p>`
 }
 

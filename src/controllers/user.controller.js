@@ -5,6 +5,7 @@ import { generateToken } from "../jwt/auth.js";
 import { logger } from "../utils/logger.js"
 import { errorsDictionary } from "../utils/errorsDictionary.js";
 
+
 export const register = async (req, res, next) => {
     try {
         const user = await service.register(req.body);
@@ -144,6 +145,30 @@ export const updatePassword = async (req, res, next) => {
         if (!updPassword) return res.status(404).json({ msg: errorsDictionary.EQUAL_PASSWORD });
         res.clearCookie("tokenPass");
         return res.status(200).json({ msg: "Password updated successfully", updPassword })
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const changeRole = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const user = await userDao.findUserById(id);
+
+        switch (user.role) {
+            case "premium":
+                await userDao.update(user._id, { role: "user" })
+                res.status(200).json({ msg: "Role updated to user successfully" })
+                break;
+            case "user":
+                await userDao.update(user._id, { role: "premium" })
+                res.status(200).json({ msg: "Role updated to premium successfully" })
+                break;
+            case "admin":
+                res.status(403).json({ msg: "Admins are not allowed to change role" })
+                break;
+        }
+
     } catch (error) {
         next(error)
     }

@@ -14,7 +14,7 @@ export const checkUserRole = async (req, res, next) => {
         const id = req.session.userId
         const user = await userDao.findUserById(id);
 
-        if (user.role === "user") {
+        if (user.role === "user" || user.role === "premium") {
             next();
         } else res.status(403).json({ error: 'Acceso no autorizado' });
 

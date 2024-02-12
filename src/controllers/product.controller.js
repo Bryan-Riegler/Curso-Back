@@ -1,5 +1,6 @@
 import * as service from "../services/product.services.js";
 import { errorsDictionary } from "../utils/errorsDictionary.js";
+import { ProductModel } from "../daos/mongodb/models/product.model.js";
 
 export const getProducts = async (req, res, next) => {
     try {
@@ -77,9 +78,17 @@ export const getProductById = async (req, res, next) => {
 
 export const addProduct = async (req, res, next) => {
     try {
-        const newProduct = await service.addProduct(req.body);
-        if (!newProduct) res.status(404).json({ message: errorsDictionary.ERROR_CREATE });
-        else res.status(200).json(newProduct);
+        const userRole = req.user.role;
+
+        if (userRole !== "premium" && userRole !== "admin") {
+            return res.status(403).json({ msg: "Unauthorized to create products" });
+        }
+
+        const owner = (userRole === "premium") ? req.user.email : "admin";
+
+        const newProduct = service.addProduct({ ...req.body, owner });
+        if (!newProduct) res.status(404).json({ msg: errorsDictionary.ERROR_CREATE })
+        else res.status(200).json(newProduct)
     } catch (error) {
         next(error);
     }
@@ -99,9 +108,23 @@ export const updateProduct = async (req, res, next) => {
 export const deleteProduct = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const productDeleted = await service.deleteProduct(id);
-        if (!productDeleted) res.status(404).json({ message: errorsDictionary.ERROR_DELETE });
-        else res.status(200).json({ message: `Product with id: ${id} deleted` });
+        const userRole = req.user.role;
+
+        if (userRole === "admin") {
+            await service.deleteProduct(id);
+            res.status(200).json({ msg: `Product with id ${id} was deleted successfully` });
+        } else if (userRole === "premium") {
+            const product = await ProductModel.findOne({ _id: id, owner: req.user.email });
+            if (product) {
+                await service.deleteProduct(id);
+                res.status(200).json({ msg: `Product with id ${id} was deleted successfully` })
+            } else {
+                res.status(403).json({ msg: "You are not the owner of this product" });
+            }
+        } else {
+            res.status(403).json({ msg: "Unaothorized to delete products" })
+        }
+
     } catch (error) {
         next(error);
     }

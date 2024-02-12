@@ -41,4 +41,6 @@ router.post("/resetPassword", checkAuth, controller.resetPassword);
 
 router.put("/updatePassword", checkAuth, controller.updatePassword);
 
+router.put("/premium/:id", checkAuth, controller.changeRole)
+
 export default router;
