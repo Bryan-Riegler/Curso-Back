@@ -51,6 +51,7 @@ export const updatePassword = async (user, password) => {
     try {
         const response = await userDao.updatePassword(user, password);
         if (!response) return false;
+        await sendMail(user, "passChanged")
         return response;
     } catch (error) {
         throw new Error(error.message)

@@ -21,6 +21,11 @@ const msgReset = (firstName) => {
     </p>`
 }
 
+const msgPassChanged = (firstName) => {
+    return `<h1>Hola, ${firstName}</h1>
+    <p>Su contraseña ha sido modificada con exito.</p>`
+}
+
 export const sendMail = async (user, service, token = null) => {
     try {
         const { firstName, email } = user;
@@ -31,8 +36,10 @@ export const sendMail = async (user, service, token = null) => {
             msg = msgRegister(firstName)
         } else if (service === "resetPassword") {
             msg = msgReset(firstName)
+        } else if (service === "passChanged") {
+            msg = msgPassChanged(firstName)
         } else {
-            msg = "";
+            msg = ""
         }
 
         let subj = ""
@@ -41,6 +48,8 @@ export const sendMail = async (user, service, token = null) => {
             subj = "Bienvenido"
         } else if (service === "resetPassword") {
             subj = "Restablecimieto de contraseña"
+        } else if (service === "passChanged") {
+            subj = "Contraseña cambiada"
         } else {
             subj = ""
         }
