@@ -1,0 +1,402 @@
+paths:
+  /api/products:
+    post:
+      tags:
+      - Products
+      summary: Crear un nuevo producto
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/parameters/schemas/BodyNewProducts'
+        required: true
+      responses:
+        200: 
+          description: Producto creado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products/NewProduct'
+        404:
+          description: Error creando el producto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors/CreateError'
+        403:
+          description: No autorizado a crear productos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors/Unauthorized'
+      security:
+        - BearerAuth: []
+    get:
+      tags:
+      - Products
+      summary: Obtener todos los productos
+      parameters: 
+        - in: query
+          name: page
+          description: Numero de pagina
+          schema:
+            type: number
+        - in: query
+          name: limit
+          description: Cantidad de produtos por pagina
+          schema:
+            type: number
+        - in: query
+          name: category
+          description: Filtrar por categoria
+          schema:
+            type: string
+        - in: query
+          name: sort
+          description: Ordenar por precio, Ascendente (asc) o Descendente (desc)
+          schema:
+            type: string
+      responses:
+        200:
+          description: Productos obtenidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products/GetAllProducts'
+        404:
+          description: Productos no encontrados
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors/NotFound'
+  /api/products/{id}:
+    get:
+      tags:
+      - Products
+      summary: Obtener un producto mediante id
+      parameters:
+        - in: path 
+          name: id
+          required: true
+          description: Id asociado al producto
+          schema: 
+            type: string
+      responses: 
+        200:
+          description: Producto encontrado
+          content:
+            appliation/json:
+              schema:
+                $ref : '#/components/schemas/Products/NewProduct'
+        404:
+          description: Producto no encontrado
+          content:
+            appliation/json:
+              schema:
+                $ref : '#/components/schemas/Errors/NotFound'
+    put:
+      tags:
+      - Products
+      summary: Actualizar un producto ya creado pasando por parametro el id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Id asociado al producto que se desea actualizar
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/parameters/schemas/BodyNewProducts'
+        required: true
+      responses:
+        200:
+          description: Producto actualizado
+          content:
+            applicication/json:
+              schema:
+                $ref: '#/components/schemas/Products/NewProduct'
+        404:
+          description: Error al actualizar
+          content: 
+            appication/json:
+              schema:
+                $ref: '#/components/schemas/Errors/UpdateError'
+      security:
+        - BearerAuth: []
+    delete:
+      tags:
+      - Products
+      summary: Eliminar un producto
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Id asociado al producto product
+          schema: 
+            type: string
+      responses:
+        200:
+          description: Producto eliminado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    description: producto elminado
+                example: {msg: "Product with id 65d9025ead3c60ad4e2af4a0 was deleted successfully"}
+        401:
+          description: No autorizado a eliminar productos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors/Unauthorized'
+        403:
+          description: No eres dueño de este producto
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - BearerAuth: []
+  /user/loginJwt:
+    post:
+      tags:
+      - Users
+      summary: Login de usuario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/parameters/schemas/login'
+        required: true
+      responses:
+        200:
+          description: logueado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users/User'
+        403:
+          description: Usuario o contraseña incorrectos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users/InvalidUser'
+  /api/carts/{id}:
+    get:
+      tags:
+      - Carts
+      summary: Obtener un carrito mediante el id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Id del carrito a buscar
+          schema:
+            type: string
+      responses:
+        200:
+          description: Carrito encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Carts/getById'
+        404:  
+          description: Carrito NO encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors/NotFound'
+    delete:
+      tags:
+      - Carts
+      summary: Vaciar carrito
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Id del carrito a buscar
+          schema:
+            type: string
+      responses:
+        200:
+          description: Carrito vaciado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Carts/clearCart'
+        404:
+          description: Error al eliminar el carrito
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors/DeleteError'
+    put:
+      tags:
+      - Carts
+      summary: Actualizar carrito
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Id del carrito a actualizar
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/parameters/schemas/UpdateCart'
+      responses:
+        200:
+          description: Carrito actualizado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Carts/getById'
+        404:
+          description: Error al actualizar
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors/UpdateError'
+  /api/carts/{idCart}/product/{idProduct}:
+    post:
+      tags:
+      - Carts
+      summary: Agregar producto al carrito
+      parameters:
+        - in: path
+          name: idCart
+          required: true
+          description: Id del carrito al cual agregar el producto
+          schema:
+            type: string
+        - in: path
+          name: idProduct
+          required: true
+          description: Id del producto que se desea agregar
+          schema:
+            type: string
+      responses:
+        200:
+          description: Producto agregado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Carts/getById'
+        404:
+          description: Error al agregar el producto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors/AddError'
+        403:
+          description: Los usuarios premium no pueden agregar sus propios productos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors/Unauthorized'
+      security:
+        - BearerAuth: []
+    delete:
+      tags:
+      - Carts
+      summary: Eliminar UN producto del carrito
+      parameters:
+        - in: path
+          name: idCart
+          required: true
+          description: Id del carrito del cual eliminar el producto
+          schema:
+            type: string
+        - in: path
+          name: idProduct
+          required: true
+          description: Id del producto que se desea eliminar
+          schema:
+            type: string
+      responses:
+        200:
+          description: Producto eliminado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+              example: {msg: "Producto con id  eliminado correctamente del carrito "}
+        404:
+          description: Error al eliminar el producto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors/DeleteError'
+    put:
+      tags:
+      - Carts
+      summary: Actualizar la cantidad de producto en carrito
+      parameters:
+        - in: path
+          name: idCart
+          required: true
+          description: Id del carrito del cual eliminar el producto
+          schema:
+            type: string
+        - in: path
+          name: idProduct
+          required: true
+          description: Id del producto que se desea eliminar
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/parameters/schemas/UpdateQuantity'
+      responses:
+        200:
+          description: Cantidad actualizada correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+              example: {msg: "Cantidad actualizada correctamente"}
+        404:
+          description: Error al actualizar, producto no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors/NotFound'
+  /api/carts/{cartId}/purchase:
+    post:
+      tags:
+      - Carts
+      summary: Crear el ticket de compra
+      parameters:
+        - in: path
+          name: cartId
+          required: true
+          description: Id del carrito con el cual se creara el ticket
+          schema:
+            type: string
+      responses:
+        200:
+          description: Ticket creado correctamente
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Carts/CreateTicket'
+        404:
+          description: Error al crear el ticket
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors/CreateError'
+      security:
+      - BearerAuth: []

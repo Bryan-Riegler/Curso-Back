@@ -86,7 +86,7 @@ export const addProduct = async (req, res, next) => {
 
         const owner = (userRole === "premium") ? req.user.email : "admin";
 
-        const newProduct = service.addProduct({ ...req.body, owner });
+        const newProduct = await service.addProduct({ ...req.body, owner });
         if (!newProduct) res.status(404).json({ msg: errorsDictionary.ERROR_CREATE })
         else res.status(200).json(newProduct)
     } catch (error) {

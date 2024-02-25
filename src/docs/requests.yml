@@ -1,0 +1,87 @@
+components:
+  parameters:
+    schemas:
+      BodyNewProducts:
+        type: object
+        required: 
+          - title
+          - description
+          - price
+          - code
+          - stock
+          - category
+        properties:
+          title:
+            type: string
+            description: Nombre del producto a agregar
+          description:
+            type: string
+            description: Descripcion del producto
+          price:
+            type: number
+            description: Precio del producto
+          code: 
+            type: string
+            description: Codigo identificativo del producto distinto al id
+          stock:
+            type: number
+            description: Cantidad de unidades disponibles
+          category:
+            type: string
+            description: Categoria a la cual pertenece el producto
+        example:
+          title: Agua
+          description: Botella de agua 1.5L
+          price: 1500
+          code: Ag01
+          stock: 15
+          category: Bebidas
+      login:
+        type: object
+        required:
+          - email
+          - password
+        properties:
+          email:
+            type: string
+            description: Email del usuario
+          password:
+            type: string
+            description: Contraseña del usuario
+        example:
+          email: ejemplo@mail.com
+          password: ejemplo123
+      UpdateCart:
+        type: array
+        items:
+          type: object
+          properties:
+            product:
+              type: string
+              description: Id del producto
+            quantity:
+              type: number
+              description: Numero de unidades a agregar al carrito
+          required:
+            - product
+            - quantity
+        example:
+          - product: "655ae728365f35f30c3e9880"
+            quantity: 2
+          - product: "656183817803e0b395793fc6"
+            quantity: 3
+      UpdateQuantity:
+        type: object
+        required:
+          - quantity
+        properties:
+          quantity:
+            type: number
+            description: Cantidad a la cual se quiere actualizar
+        example: 
+          quantity: 5
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

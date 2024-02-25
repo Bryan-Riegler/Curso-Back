@@ -1,0 +1,290 @@
+components:
+  schemas:
+    Products:
+      NewProduct:
+        type: object
+        properties:
+          _id:
+            type: string
+            description: Id proporcionado por mongo
+          title:
+            type: string
+            description: Nombre del producto a agregar
+          description:
+            type: string
+            description: Descripcion del producto
+          price:
+            type: number
+            description: Precio del producto
+          code: 
+            type: string
+            description: Codigo identificativo del producto distinto al id
+          stock:
+            type: number
+            description: Cantidad de unidades disponibles
+          category:
+            type: string
+            description: Categoria a la cual pertenece el producto
+          status:
+            type: boolean
+          owner:
+            type: string
+            description: Dueño del producto
+        example:
+          id: 656119bb3907358be22489f4
+          title: Agua
+          description: Botella de agua 1.5L
+          price: 1500
+          code: Ag01
+          stock: 15
+          category: Bebidas
+          status: true
+          owner: admin
+      GetAllProducts:
+        type: array
+        items:
+          properties:
+            id:
+              type: string
+              description: Id proporcionado por mongo
+            title:
+              type: string
+              description: Nombre del producto a agregar
+            description:
+              type: string
+              description: Descripcion del producto
+            price:
+              type: number
+              description: Precio del producto
+            code: 
+              type: string
+              description: Codigo identificativo del producto distinto al id
+            stock:
+              type: number
+              description: Cantidad de unidades disponibles
+            category:
+              type: string
+              description: Categoria a la cual pertenece el producto
+            status:
+              type: boolean
+            owner:
+              type: string
+              description: Dueño del producto
+          example:
+            status: success
+            payload: [{
+              id: 656119bb3907358be22489f4,
+              title: Agua,
+              description: Botella de agua 1.5L,
+              price: 1500,
+              code: Ag01,
+              stock: 15,
+              category: Bebidas,
+              status: true,
+              owner: admin},]
+            totalPages: 3,
+            prevPage: null,
+            nextPage: 2,
+            page: 1,
+            hasPrevPage: false,
+            hasNextPage: true,
+            prev: null,
+            next: "http://localhost:8080/api/products?page=2"
+      UpdateProducts:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Id proporcionado por mongo
+          title:
+            type: string
+            description: Nombre del producto a agregar
+          description:
+            type: string
+            description: Descripcion del producto
+          price:
+            type: number
+            description: Precio del producto
+          code: 
+            type: string
+            description: Codigo identificativo del producto distinto al id
+          stock:
+            type: number
+            description: Cantidad de unidades disponibles
+          category:
+            type: string
+            description: Categoria a la cual pertenece el producto
+          status:
+            type: boolean
+          owner:
+            type: string
+            description: Dueño del producto
+        example:
+          id: 656119bb3907358be22489f4
+          title: Agua
+          description: Botella de agua 1.5L
+          price: 1500
+          code: Ag01
+          stock: 15
+          category: Bebidas
+          status: true
+          owner: admin
+    Users:
+      User:
+        type: object
+        properties:
+          msg:
+            type: string
+          accesToken:
+            type: string
+            description: Token de acceso
+        example: {msg: "login ok", accesToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWM3Zjc1MDZkNTI3NWNkMjNkOTI1ZTYiLCJpYXQiOjE3MDg3MTcyNDIsImV4cCI6MTcwODcxODE0Mn0.L3ZnpSvd5GsEEGxxso9QEix0Ns2EIdVkxWzSpQYR_nI"}
+      InvalidUser:
+        type: object
+        properties:
+          msg:
+            type: string
+        example: {msg: "invalid user"}
+    Carts:
+      getById:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Id del carrito
+          products:
+            type: array
+            items:
+              properties:
+                products:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                      description: Id del producto
+                    title:
+                      type: string
+                      description: Nombre del producto
+                    description:
+                      type: string
+                      description: Descripcion del producto
+                    price:
+                      type: number
+                      description: Precio del producto
+                    code:
+                      type: string
+                      description: codigo de producto
+                    stock:
+                      type: number
+                      description: Cantidad de unidades disponibles
+                    category:
+                      type: string
+                      description: Categoria del producto
+                    status:
+                      type: boolean
+                      description: Estado del producto
+                    owner:
+                      type: string
+                      description: Dueño del producto
+                quantity:
+                  type: number
+                  description: Cantidad de productos en el carrito
+        examples: {
+          _id: 65c84d411ad9ac316b737cb1,
+          products: [
+            {
+              product: {
+                _id: 65c84d411ad9ac316b,
+                title: Ejemplo,
+                description: Este es un producto de ejemplo,
+                price: 200,
+                code: EJ01,
+                stock: 2,
+                category: Ejemplos,
+                status: true,
+                owner: admin
+              },
+            quantity: 2
+            }
+          ]
+        }
+      clearCart:
+        type: object
+        properties:
+          _id:
+            type: string
+            description: Id del carrito
+          products:
+            type: array
+        example: {
+          _id: 65c84d411ad9ac316b737cb1,
+          products: []
+        }
+      CreateTicket:
+        type: object
+        properties:
+          msg:
+            type: string
+          ticket:
+            type: object
+            properties:
+              code:
+                type: string
+              purchaseDateTime: 
+                type: date
+              amount:
+                type: number
+              purcharser: 
+                type: string
+              price:
+                type: number
+              _id:
+                type: string
+        example: {
+          msg: ticket creado exitosamente,
+          ticket: {
+            code: OzIVgDqutlu2GFW,
+            purchaseDateTime: 24/2/2024, 03:12:13,
+            amount: 4,
+            purcharser: ejemplo@gmail.com,
+            price: 6500,
+            _id: 65d98a19a2f97e26b81dbc89
+          }
+        }
+    Errors:
+      DeleteError:
+        type: object
+        porperties:
+          msg:
+            type: string
+        example: {msg: "Error al borrar"}
+      UpdateError:
+        type: object
+        porperties:
+          msg:
+            type: string
+        example: {msg: "Error al actualizar"}
+      NotFound:
+        type: object
+        properties:
+          msg:
+            type: string
+        example: {msg: "No encontrado"}
+      Unauthorized:
+        type: object
+        properties:
+          msg:
+            type: string
+        example: {msg: "No autorizado"}
+      CreateError:
+        type: object
+        porperties:
+          msg:
+            type: string
+        example: {msg: "Error al crear"}
+      AddError:
+        type: object
+        porperties:
+          msg:
+            type: string
+        example: {msg: "Error al agregar"}

@@ -19,8 +19,14 @@ import passport from "passport";
 import './passport/github-strategy.js'
 import loggerRouter from "./routes/loggerTest.router.js"
 import { logger } from "./utils/logger.js";
+import { info } from "./docs/info.js"
+import swaggerUI from "swagger-ui-express"
+import swaggerJSDoc from "swagger-jsdoc";
 
 const app = express();
+
+const specs = swaggerJSDoc(info)
+
 app.use(cookieParser());
 
 const mongoStoreOptions = {
@@ -52,6 +58,7 @@ app.use(session(mongoStoreOptions))
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use("/docs", swaggerUI.serve, swaggerUI.setup(specs));
 app.use("/api/products", productRouter);
 app.use("/api/carts", cartRouter);
 app.use("/", viewRouter);
