@@ -1,8 +1,9 @@
+import config from "../../../config/config.js";
 import { Schema, model } from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2";
 
 
-export const productsCollection = "products";
+export const productsCollection = config.TEST_COLLECTION ? "TestProducts" : "products";
 
 export const productsSchema = new Schema({
     title: { type: String, required: true },

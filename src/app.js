@@ -106,3 +106,5 @@ socketServer.on("connection", async (socket) => {
         socket.broadcast.emit("chat:typing", user);
     })
 })
+
+export default app

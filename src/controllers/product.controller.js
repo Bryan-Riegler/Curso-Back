@@ -110,20 +110,28 @@ export const deleteProduct = async (req, res, next) => {
         const { id } = req.params;
         const userRole = req.user.role;
 
-        if (userRole === "admin") {
-            await service.deleteProduct(id);
-            res.status(200).json({ msg: `Product with id ${id} was deleted successfully` });
-        } else if (userRole === "premium") {
-            const product = await ProductModel.findOne({ _id: id, owner: req.user.email });
-            if (product) {
-                await service.deleteProduct(id);
-                res.status(200).json({ msg: `Product with id ${id} was deleted successfully` })
-            } else {
-                res.status(403).json({ msg: "You are not the owner of this product" });
-            }
+        const product = await service.getProductById(id)
+
+        if (!product) {
+            res.status(404).json({ msg: errorsDictionary.ERROR_FIND_ })
         } else {
-            res.status(403).json({ msg: "Unaothorized to delete products" })
+            if (userRole === "admin") {
+                await service.deleteProduct(id);
+                res.status(200).json({ msg: `Product with id ${id} was deleted successfully` });
+            } else if (userRole === "premium") {
+                const product = await ProductModel.findOne({ _id: id, owner: req.user.email });
+                if (product) {
+                    await service.deleteProduct(id);
+                    res.status(200).json({ msg: `Product with id ${id} was deleted successfully` })
+                } else {
+                    res.status(403).json({ msg: "You are not the owner of this product" });
+                }
+            } else {
+                res.status(403).json({ msg: "Unaothorized to delete products" })
+            }
+
         }
+
 
     } catch (error) {
         next(error);

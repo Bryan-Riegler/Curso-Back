@@ -1,4 +1,7 @@
+import config from "../../../config/config.js";
 import { Schema, model } from "mongoose";
+
+export const ticketsCollection = config.TEST_COLLECTION ? "testTickets" : "tickets";
 
 const ticketSchema = new Schema({
     code: {
@@ -22,4 +25,4 @@ const ticketSchema = new Schema({
     }
 })
 
-export const ticketModel = model("tickets", ticketSchema);
+export const ticketModel = model(ticketsCollection, ticketSchema);

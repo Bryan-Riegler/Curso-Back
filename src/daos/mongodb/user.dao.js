@@ -17,7 +17,7 @@ export default class UserDao {
     async register(user) {
         try {
             const { email, password } = user;
-            if (email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
+            if (email === 'adminCoder@coder.com') {
                 const cart = await cartDao.createCart();
                 const cartId = cart._id;
                 return await userModel.create({ ...user, password: createHash(password), role: 'admin', cart: cartId });

@@ -7,4 +7,5 @@ export default {
     TRANSPORT_TYPE: process.env.TRANSPORT_TYPE,
     EMAIL: process.env.EMAIL,
     PASSWORD: process.env.PASSWORD,
+    TEST_COLLECTION: process.env.TEST_COLLECTION
 }

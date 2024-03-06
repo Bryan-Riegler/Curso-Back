@@ -1,4 +1,7 @@
+import config from "../../../config/config.js";
 import { Schema, model } from "mongoose"
+
+export const userCollection = config.TEST_COLLECTION ? "Testusers" : "users";
 
 const userSchema = new Schema({
     firstName: {
@@ -42,4 +45,4 @@ const userSchema = new Schema({
 
 })
 
-export const userModel = model("users", userSchema);
+export const userModel = model(userCollection, userSchema);
