@@ -22,6 +22,7 @@ import { logger } from "./utils/logger.js";
 import { info } from "./docs/info.js"
 import swaggerUI from "swagger-ui-express"
 import swaggerJSDoc from "swagger-jsdoc";
+import cors from "cors";
 
 const app = express();
 
