@@ -28,7 +28,7 @@ const app = express();
 const specs = swaggerJSDoc(info)
 
 app.use(cookieParser());
-
+app.use(cors());
 const mongoStoreOptions = {
     store: MongoStore.create({
         mongoUrl: url,
