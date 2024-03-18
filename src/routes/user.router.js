@@ -4,6 +4,7 @@ import * as controller from "../controllers/user.controller.js";
 import passport from "passport";
 import { tokenValidator } from "../middlewares/tokenValidator.js";
 import { checkAuth } from "../middlewares/checkAuth.js";
+import { checkAdminRole } from "../middlewares/checkAdminRole.js";
 
 router.get("/logout", controller.logout);
 
@@ -42,5 +43,9 @@ router.post("/resetPassword", checkAuth, controller.resetPassword);
 router.put("/updatePassword", checkAuth, controller.updatePassword);
 
 router.put("/premium/:id", checkAuth, controller.changeRole)
+
+router.delete("/deleteUsers", checkAdminRole, controller.deleteUsers);
+
+router.get("/getUsers", checkAdminRole, controller.getAllUsers)
 
 export default router;

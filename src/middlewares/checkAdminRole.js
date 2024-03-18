@@ -15,9 +15,9 @@ export const checkAdminRole = async (req, res, next) => {
         const user = await userDao.findUserById(id);
 
 
-        if (user.role === "admin") {
-            next();
-        } else res.status(403).json({ error: 'Acceso no autorizado' });
+        if (!user || user.role !== "admin") {
+            res.status(403).json({ error: 'Acceso no autorizado' });
+        } else next()
 
     } catch (error) {
         logger.error(error);

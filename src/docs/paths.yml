@@ -163,6 +163,27 @@ paths:
                 type: string
       security:
         - BearerAuth: []
+  /user/getUsers:
+    get:
+      tags:
+      - Users
+      summary: Obtener todos los usuarios registrados
+      responses:
+        200:
+          description: Usuarios obtenidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users/GetAllUsers'
+        404:
+          description: Usuarios no encontrados
+          content:
+            application/json:
+              schema:
+                type: object
+              example: {msg: "users not found"}
+      security:
+        - BearerAuth: []
   /user/loginJwt:
     post:
       tags:
@@ -187,6 +208,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Users/InvalidUser'
+  /user/deleteUsers:
+    delete:
+      tags:
+      - Users
+      summary: Eliminar los usuarios (No administradores) inactivos en una cantidad de tiempo 
+      responses:
+        200: 
+          description: Usuarios eliminados correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+              example: {msg: "Deleted successfully", deletedUsers: 2}
+        500:
+          description: error al eliminar usuarios
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors/DeleteError'
+        404:
+          description: error al eliminar usuarios, no se encontraron usuarios para eliminar
+          content:
+            application/json:
+              schema:
+                type: object
+              example: {msg: "There are no users to delete "}
+      security:
+        - BearerAuth: []
+
   /api/carts/{id}:
     get:
       tags:

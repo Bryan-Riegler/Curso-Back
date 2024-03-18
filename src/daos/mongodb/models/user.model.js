@@ -41,6 +41,10 @@ const userSchema = new Schema({
     cart: {
         type: String,
         default: "",
+    },
+    last_connection: {
+        type: Date,
+        default: Date.now()
     }
 
 })

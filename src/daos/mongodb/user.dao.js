@@ -41,7 +41,10 @@ export default class UserDao {
             if (exist) {
                 const comparePass = comparePassword(password, exist)
                 if (!comparePass) return false;
-                else return exist
+                exist.last_connection = new Date()
+                await exist.save();
+                // console.log(exist)
+                return exist
             }
             return false;
         } catch (error) {
@@ -82,6 +85,16 @@ export default class UserDao {
             if (isEqual) return false;
             const newPassword = createHash(password);
             return await this.update(user._id, { password: newPassword })
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
+
+    async getAllUsers() {
+        try {
+            const getAll = await userModel.find()
+            if (!getAll) return false;
+            else return getAll
         } catch (error) {
             throw new Error(error.message)
         }

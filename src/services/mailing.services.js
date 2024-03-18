@@ -26,10 +26,20 @@ const msgPassChanged = (firstName) => {
     <p>Su contraseña ha sido modificada con exito.</p>`
 }
 
+const msgDelete = (firstName) => {
+    return `<h1>Hola, ${firstName}</h1>
+    <p> Su cuenta ha sido eliminada por inactividad</p>`
+}
+
+const msgDelProd = (title, firstName) => {
+    return `<h1>Hola, ${firstName}</h1>
+    <p> Su produto ${title} ha sido eliminado</p>`
+}
+
 export const sendMail = async (user, service, token = null) => {
     try {
         const { firstName, email } = user;
-
+        const { title } = user;
         let msg = "";
 
         if (service === "register") {
@@ -38,6 +48,10 @@ export const sendMail = async (user, service, token = null) => {
             msg = msgReset(firstName)
         } else if (service === "passChanged") {
             msg = msgPassChanged(firstName)
+        } else if (service === "delete") {
+            msg = msgDelete(firstName)
+        } else if (service === "deleteProd") {
+            msg = msgDelProd(title, firstName)
         } else {
             msg = ""
         }
@@ -50,6 +64,10 @@ export const sendMail = async (user, service, token = null) => {
             subj = "Restablecimieto de contraseña"
         } else if (service === "passChanged") {
             subj = "Contraseña cambiada"
+        } else if (service === "delete") {
+            subj = "Eliminacion de cuenta"
+        } else if (service === "deleteProd") {
+            subj = "Producto eliminado"
         } else {
             subj = ""
         }

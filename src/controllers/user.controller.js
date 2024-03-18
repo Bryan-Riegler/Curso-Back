@@ -39,7 +39,7 @@ export const loginJwt = async (req, res, next) => {
         if (!user) res.json({ msg: "Invalid user" })
         const accessToken = generateToken(user, "15m");
         // res.header("Authorization", accessToken).json({ msg: "login ok", accessToken })
-        res.cookie("Authorization", accessToken, { httpOnly: true }).json({ msg: "login ok", accessToken });
+        res.cookie("Authorization", accessToken, { httpOnly: true }).json({ msg: "login ok", accessToken, user });
     } catch (error) {
         next(error)
     }
@@ -169,6 +169,28 @@ export const changeRole = async (req, res, next) => {
                 break;
         }
 
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const deleteUsers = async (req, res, next) => {
+    try {
+        const deleteUsers = await service.deleteUsers()
+        if (deleteUsers === 0) {
+            return res.status(404).json({ msg: "There aro no users to delete" })
+        } else if (!deleteUsers) return res.status(500).json({ msg: errorsDictionary.ERROR_DELETE })
+        res.status(200).json({ msg: "Deleted successfully", "deletedUsers": deleteUsers })
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const getAllUsers = async (req, res, next) => {
+    try {
+        const getAll = await service.getAllUsers()
+        if (!getAll) return res.status(404).json({ msg: "Users not found" });
+        res.status(200).json(getAll)
     } catch (error) {
         next(error)
     }

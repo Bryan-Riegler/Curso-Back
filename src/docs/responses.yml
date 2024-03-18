@@ -145,6 +145,38 @@ components:
           msg:
             type: string
         example: {msg: "invalid user"}
+      GetAllUsers :
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Nombre y apellido del usuario.
+            email:
+              type: string
+              description: Email del usuario.
+            age:
+              type: number
+              decription: Edad del usuario
+            avatar:
+              type: string
+              description: Imagen de perfil del usuario
+            role:
+              type: string
+              description: Rol o tipo de usuario.
+          example: [
+            {name: "User example",
+            email: "example@gmail.com",
+            age: 999,
+            avatar: "avatarUrl",
+            role: "user"},
+            {name: "User2 example",
+            email: "example2@gmail.com",
+            age: 999,
+            avatar: "avatarUrl",
+            role: "premium"}
+          ]
     Carts:
       getById:
         type: object
