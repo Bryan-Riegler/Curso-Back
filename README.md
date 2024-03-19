@@ -26,7 +26,7 @@ Para su correcto funcionamiento es necesario configurar correctamente las siguen
 
 #### Crear un producto
 
-```http
+```
   POST /api/products
 ```
 
