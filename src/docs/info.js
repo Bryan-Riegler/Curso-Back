@@ -8,7 +8,8 @@ export const info = {
         },
         servers: [
             {
-                url: "http://localhost:8080"
+                url: "http://localhost:8080",
+                url: "https://curso-back.onrender.com/"
             }
         ]
     },
