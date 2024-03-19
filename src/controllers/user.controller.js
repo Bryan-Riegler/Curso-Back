@@ -195,3 +195,19 @@ export const getAllUsers = async (req, res, next) => {
         next(error)
     }
 }
+
+export const getPrivate = async (req, res) => {
+    const { firstName, lastName, email, role, isGithub, age, cart } = req.user;
+    res.json({
+        status: "success",
+        userData: {
+            firstName,
+            lastName,
+            age,
+            email,
+            role,
+            isGithub,
+            cart,
+        },
+    })
+}

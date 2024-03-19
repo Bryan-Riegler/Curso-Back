@@ -22,21 +22,7 @@ router.post("/loginJwt", controller.loginJwt);
 
 router.post("/registerJwt", controller.registerJwt);
 
-router.get("/private", tokenValidator, (req, res) => {
-    const { firstName, lastName, email, role, isGithub, age, cart } = req.user;
-    res.json({
-        status: "success",
-        userData: {
-            firstName,
-            lastName,
-            age,
-            email,
-            role,
-            isGithub,
-            cart,
-        },
-    })
-});
+router.get("/private", tokenValidator, controller.getPrivate);
 
 router.post("/resetPassword", checkAuth, controller.resetPassword);
 
