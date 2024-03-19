@@ -61,7 +61,7 @@ components:
               description: Id del producto
             quantity:
               type: number
-              description: Numero de unidades a agregar al carrito (Insertar id de producto existente)
+              description: Numero de unidades a agregar al carrito 
           required:
             - product
             - quantity

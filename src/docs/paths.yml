@@ -289,7 +289,7 @@ paths:
     put:
       tags:
       - Carts
-      summary: Actualizar carrito
+      summary: Actualizar carrito (Insertar id de producto existente)
       parameters:
         - in: path
           name: id
