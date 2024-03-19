@@ -128,6 +128,18 @@ describe("Test users", () => {
         expect(updatePassword.statusCode).toBe(200);
         expect(updatePassword.body.msg).toEqual("Password updated successfully");
     }, 20000)
+
+    test("[GET] /user/getUsers", async () => {
+        const user = {
+            email: "adminCoder@coder.com",
+            password: "1234"
+        }
+        const login = await request(app).post("/user/loginJwt").send(user)
+        const token = login.body.accessToken
+        const getUsers = await request(app).get("/user/getUsers").set('Cookie', `Authorization=${token}`);
+        expect(getUsers.statusCode).toBe(200);
+        expect(getUsers.body).toBeInstanceOf(Array)
+    }, 20000)
 })
 
 describe("Test productos", () => {
