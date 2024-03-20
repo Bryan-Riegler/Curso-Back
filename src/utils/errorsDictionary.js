@@ -7,6 +7,6 @@ export const errorsDictionary = {
     ERROR_CREATE: "Error creating",
     ERROR_DELETE: "Error deleting",
     TOKEN_NOT_FOUND: "Expired link",
-    EQUAL_PASSWORD: "The password must not to be equal"
+    EQUAL_PASSWORD: "The password must not to be the same"
 }
 

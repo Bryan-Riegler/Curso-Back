@@ -140,7 +140,7 @@ export const updatePassword = async (req, res, next) => {
         const user = req.user;
         const { password } = req.body;
         const { tokenPass } = req.cookies;
-        if (!tokenPass) return res.status(404).json({ msg: errorsDictionary.TOKEN_NOT_FOUND });
+        if (!tokenPass) return res.status(403).json({ msg: errorsDictionary.TOKEN_NOT_FOUND });
         const updPassword = await service.updatePassword(user, password);
         if (!updPassword) return res.status(404).json({ msg: errorsDictionary.EQUAL_PASSWORD });
         res.clearCookie("tokenPass");

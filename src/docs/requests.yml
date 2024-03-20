@@ -51,6 +51,44 @@ components:
         example:
           email: ejemplo@mail.com
           password: ejemplo123
+      register:
+        type: object
+        required:
+          - firtsName
+          - lastName
+          - email
+          - age
+          - password
+        properties:
+          firstName:
+            type: string
+            description: nombre del usuario
+          lastName:
+            type: string
+            description: apellido del usuario
+          email:
+            type: string
+            description: email del usuario
+          age:  
+            type: number
+            description: edad del usuario
+          password:
+            type: string
+            description: contraseña del usuario
+        example:
+          firstName: ejemplo
+          lastName: ejemplo
+          email: ejemplo@gmail.com
+          age: 999
+          password: ejemplo123
+      UpdatePassword:
+        type: object
+        properties:
+          password:
+            type: string
+            description: contraseña nueva
+        example: 
+          password: nuevaPass123
       UpdateCart:
         type: array
         items:

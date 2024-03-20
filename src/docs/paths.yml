@@ -163,6 +163,44 @@ paths:
                 type: string
       security:
         - BearerAuth: []
+  /user/registerJwt:
+    post:
+      tags:
+      - Users
+      summary: Registrar un usuario nuevo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/parameters/schemas/register'
+      responses:
+        200:
+          description: Usuario registrado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users/Register'
+        400:
+          description: Usuario ya existente
+          content:
+            application/json:
+              schema:
+                type: obejct
+              example: User already exist
+  /user/private:
+    get:
+      tags:
+      - Users
+      summary: Obtener datos del usuario loguedo con jwt
+      responses:
+        200:
+          description: Usuario registrado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users/Private'
+      security:
+        - BearerAuth: []
   /user/getUsers:
     get:
       tags:
@@ -208,6 +246,85 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Users/InvalidUser'
+  /user/resetPassword:
+    post:
+      tags:
+      - Users
+      summary: Solicitar cambiar contraseña
+      responses:
+        200:
+          description: Mail enviado y token para cambio de contraseña creado
+          content:
+            application/json:
+              schema:
+                type: object
+              example: {msg: "Reset password email send"}
+        404: 
+          description: Mail no enviado
+          content:
+            application/json:
+              schema:
+                type: object
+              example: {msg: "Email not send"}
+  /user/updatePassword:
+    put:
+      tags:
+      - Users
+      summary: Actualizar la contraseña
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/parameters/schemas/UpdatePassword'
+      responses:
+        200: 
+          description: Contraseña actualizada
+          content:
+            application/json:
+              schema:
+                type: object
+              example: {msg: "password updated successfully, newPass"}
+        404:
+          description: Error contraseña nueva igual a la anterior
+          content:
+            application/json:
+              schema:
+                type: object
+              example: {msg: "The password must not to be the same"}
+        403:
+          description: Token expirado
+          content:
+            application/json:
+              schema:
+                type: object
+              example: {msg: "Expired link"}
+  /user/premium/{id}:
+    put:
+      tags:
+      - Users
+      summary: Cambiar rol de user a premium o de premium a user
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Id del usuario a modificar
+          schema:
+            type: string
+      responses:
+        200:
+          description: rol modificado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+              example: {msg: "Role updated to rol successfully"}
+        403:
+          description: no se permite cambiar el rol a los administradores
+          content:
+            application/json:
+              schema:
+                type: object
+              example: { msg: "Admins are not allowed to change role" }
   /user/deleteUsers:
     delete:
       tags:

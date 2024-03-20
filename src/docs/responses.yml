@@ -177,6 +177,82 @@ components:
             avatar: "avatarUrl",
             role: "premium"}
           ]
+      Register:
+        type: object
+        properties:
+          msg: 
+            type: string
+          newUser:
+            type: object
+            properties:
+              firstName:
+                type: string
+              lastName:
+                type: string
+              email:
+                type: string
+              age: 
+                type: number
+              password:
+                type: string
+              role: 
+                type: string
+              isGithub:
+                type: boolean
+              avatar:
+                type: string
+              cart:
+                type: string
+              last_connection:
+                type: date
+              _id: 
+                type: string
+        example:  
+          msg: Register OK,
+          newUser: 
+            firstName: example,
+            lastName: example,
+            email: example@gmail.com,
+            age: 999,
+            password: $2b$10$xOFbT/ExJSSVjuHog,
+            role: user,
+            isGithub: false,
+            avatar: img.jpg,
+            cart: 65fa1a1211e7ed2928235b72,
+            last_connection: 2024-03-19T23:03:37.176Z,
+            _id: 65fa1a1211e7ed2928235b74   
+      Private:
+        type: object
+        properties:
+          status:
+            type: string
+          userData:
+            type: object
+            properties:
+              firstName:
+                type: string
+              lastName:
+                type: string
+              age: 
+                type: number
+              email:
+                type: string
+              role:
+                type: string
+              isGithub:
+                type: boolean
+              cart:
+                type: string
+        example:
+          status: success,
+          userData: 
+            firstName: example,
+            lastName: example,
+            age: 999,
+            email: example@gmail.com,
+            role: user,
+            isGithub: false,
+            cart: 65fa1a1211e7ed2928235b74
     Carts:
       getById:
         type: object
