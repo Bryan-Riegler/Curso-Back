@@ -240,7 +240,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Users/User'
-        403:
+        502:
           description: Usuario o contraseña incorrectos
           content:
             application/json:
