@@ -1,7 +1,7 @@
 import config from "../../../config/config.js";
 import { Schema, model } from "mongoose";
 
-export const ticketsCollection = config.TEST_COLLECTION ? "testTickets" : "tickets";
+export const ticketsCollection = config.TEST_COLLECTION === "test" ? "testTickets" : "tickets";
 
 const ticketSchema = new Schema({
     code: {

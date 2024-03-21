@@ -1,7 +1,8 @@
 import config from "../../../config/config.js";
 import { Schema, model } from "mongoose";
 
-export const cartsCollection = config.TEST_COLLECTION ? "TestCarts" : "carts";
+
+export const cartsCollection = config.TEST_COLLECTION === "test" ? "TestCarts" : "carts";
 
 export const cartSchema = new Schema({
     products: [

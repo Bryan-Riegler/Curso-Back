@@ -3,7 +3,7 @@ import { Schema, model } from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2";
 
 
-export const productsCollection = config.TEST_COLLECTION ? "TestProducts" : "products";
+export const productsCollection = config.TEST_COLLECTION === "test" ? "TestProducts" : "products";
 
 export const productsSchema = new Schema({
     title: { type: String, required: true },
